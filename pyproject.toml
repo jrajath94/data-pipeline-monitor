@@ -1,0 +1,82 @@
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "data-pipeline-monitor"
+version = "1.0.0"
+description = "Real-time ML pipeline observability with drift detection"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "Rajath John", email = "jrajath94@gmail.com"}]
+requires-python = ">=3.9"
+keywords = ["ml", "monitoring", "drift", "observability", "prometheus"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries",
+]
+
+dependencies = [
+    "numpy>=1.24.0",
+    "pandas>=2.0.0",
+    "scipy>=1.10.0",
+    "prometheus-client>=0.16.0",
+    "dataclasses-json>=0.5.7",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "pytest-asyncio>=0.21.0",
+    "ruff>=0.1.0",
+    "mypy>=1.5.0",
+    "types-dataclasses>=0.6.8",
+    "types-requests>=2.31.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/jrajath94/data-pipeline-monitor"
+Repository = "https://github.com/jrajath94/data-pipeline-monitor.git"
+Issues = "https://github.com/jrajath94/data-pipeline-monitor/issues"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages]
+find = {where = ["src"]}
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=src/data_pipeline_monitor --cov-report=term-missing --cov-report=html -v"
+asyncio_mode = "auto"
+
+[tool.coverage.run]
+source = ["src/data_pipeline_monitor"]
+omit = ["*/tests/*", "*/__init__.py"]
+
+[tool.mypy]
+python_version = "3.9"
+check_untyped_defs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+warn_redundant_casts = true
+warn_unused_configs = true
+ignore_missing_imports = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "UP", "B", "A", "C4", "PIE", "PT", "RUF", "SIM", "W"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["F841"]

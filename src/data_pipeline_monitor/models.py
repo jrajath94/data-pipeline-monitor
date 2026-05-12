@@ -4,7 +4,7 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, List, Optional
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -49,7 +49,7 @@ class DataQualityMetrics:
 
     missing_values_pct: float
     duplicate_rows_pct: float
-    null_features: List[str] = field(default_factory=list)
+    null_features: list[str] = field(default_factory=list)
     feature_correlations: dict = field(default_factory=dict)
     timestamp: datetime = field(default_factory=datetime.utcnow)
 
@@ -106,9 +106,9 @@ class MonitoringConfig:
     max_duplicate_pct: float = 1.0
     metrics_port: int = 8000
     check_interval_seconds: int = 60
-    features_to_monitor: List[str] = field(default_factory=list)
-    categorical_features: List[str] = field(default_factory=list)
-    numerical_features: List[str] = field(default_factory=list)
+    features_to_monitor: list[str] = field(default_factory=list)
+    categorical_features: list[str] = field(default_factory=list)
+    numerical_features: list[str] = field(default_factory=list)
 
     def validate(self) -> bool:
         """Validate configuration."""
@@ -116,6 +116,4 @@ class MonitoringConfig:
             return False
         if not 0 < self.drift_threshold < 1:
             return False
-        if self.min_baseline_samples < 1:
-            return False
-        return True
+        return not self.min_baseline_samples < 1

@@ -4,9 +4,9 @@ import pandas as pd
 import pytest
 
 from data_pipeline_monitor import (
-    AlertSeverity,
-    DataQualityMetrics,
+    InsufficientDataError,
     MonitoringConfig,
+    MonitoringConfigError,
     PipelineMetrics,
     PipelineMonitor,
 )
@@ -37,7 +37,7 @@ class TestPipelineMonitor:
             pipeline_name="",  # Empty name
             drift_threshold=0.05,
         )
-        with pytest.raises(Exception):
+        with pytest.raises(MonitoringConfigError, match="Invalid monitoring configuration"):
             PipelineMonitor(invalid_config)
 
     def test_set_baseline_valid(
@@ -59,7 +59,7 @@ class TestPipelineMonitor:
         small_df = pd.DataFrame({"feature1": [1, 2, 3]})
         monitor = PipelineMonitor(config)
 
-        with pytest.raises(Exception):
+        with pytest.raises((MonitoringConfigError, InsufficientDataError)):
             monitor.set_baseline(small_df)
 
     def test_check_data_quality_healthy(

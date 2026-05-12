@@ -3,7 +3,7 @@
 import asyncio
 import logging
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import pandas as pd
 
@@ -13,7 +13,6 @@ from .metrics import MetricsExporter
 from .models import (
     AlertSeverity,
     DataQualityMetrics,
-    DriftType,
     MonitoringAlert,
     MonitoringConfig,
     PipelineMetrics,
@@ -43,7 +42,7 @@ class PipelineMonitor:
 
         self.baseline_data: Optional[pd.DataFrame] = None
         self.baseline_target: Optional[pd.Series] = None
-        self.alerts: List[MonitoringAlert] = []
+        self.alerts: list[MonitoringAlert] = []
 
         logger.info(f"Initialized monitor for pipeline: {config.pipeline_name}")
 
@@ -140,7 +139,7 @@ class PipelineMonitor:
 
         return metrics
 
-    def detect_feature_drift(self, batch_df: pd.DataFrame) -> Dict[str, Any]:
+    def detect_feature_drift(self, batch_df: pd.DataFrame) -> dict[str, Any]:
         """Detect drift in features.
 
         Args:
@@ -206,7 +205,7 @@ class PipelineMonitor:
 
         return results
 
-    def detect_target_drift(self, current_target: pd.Series) -> Optional[Dict[str, Any]]:
+    def detect_target_drift(self, current_target: pd.Series) -> Optional[dict[str, Any]]:
         """Detect drift in target variable.
 
         Args:
@@ -276,7 +275,7 @@ class PipelineMonitor:
 
         return healthy
 
-    def get_alerts(self, clear: bool = False) -> List[MonitoringAlert]:
+    def get_alerts(self, clear: bool = False) -> list[MonitoringAlert]:
         """Get accumulated alerts.
 
         Args:

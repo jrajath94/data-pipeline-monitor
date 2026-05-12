@@ -1,7 +1,7 @@
 """Drift detection algorithms for ML pipelines."""
 
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Optional
 
 import numpy as np
 import pandas as pd
@@ -165,8 +165,8 @@ class DriftDetector:
         self,
         baseline_df: pd.DataFrame,
         current_df: pd.DataFrame,
-        feature_columns: Optional[List[str]] = None,
-    ) -> Dict[str, DriftResult]:
+        feature_columns: Optional[list[str]] = None,
+    ) -> dict[str, DriftResult]:
         """Detect drift across multiple features.
 
         Args:
@@ -207,8 +207,8 @@ class DriftDetector:
 
 
 def calculate_feature_importance_drift(
-    baseline_importances: Dict[str, float],
-    current_importances: Dict[str, float],
+    baseline_importances: dict[str, float],
+    current_importances: dict[str, float],
 ) -> float:
     """Calculate drift in feature importance rankings using Spearman correlation.
 

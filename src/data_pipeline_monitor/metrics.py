@@ -1,7 +1,7 @@
 """Prometheus metrics exporter for pipeline monitoring."""
 
 import logging
-from typing import Any, Dict
+from typing import Any
 
 from prometheus_client import Counter, Gauge, Histogram, generate_latest
 
@@ -166,7 +166,7 @@ class MetricsExporter:
         """
         return generate_latest()
 
-    def get_metrics_dict(self) -> Dict[str, Any]:
+    def get_metrics_dict(self) -> dict[str, Any]:
         """Get metrics as dictionary for easy inspection.
 
         Returns:

@@ -21,10 +21,10 @@ class TestDriftDetector:
 
     def test_init_invalid_threshold(self) -> None:
         """Test initialization with invalid threshold."""
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="threshold"):
             DriftDetector(threshold=1.5)
 
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="threshold"):
             DriftDetector(threshold=0.0)
 
     def test_detect_numerical_drift_no_drift(
@@ -145,7 +145,7 @@ class TestDriftDetector:
         assert results["feature1"].drift_detected
 
     @pytest.mark.parametrize(
-        "threshold,should_detect",
+        ("threshold", "should_detect"),
         [
             (0.01, True),  # Very strict, should detect strong drift
             (0.5, True),  # Loose, should also detect strong drift with p<0.5

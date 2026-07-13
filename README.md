@@ -5,7 +5,7 @@
 [![CI](https://github.com/jrajath94/data-pipeline-monitor/workflows/CI/badge.svg)](https://github.com/jrajath94/data-pipeline-monitor/actions)
 [![Coverage](https://codecov.io/gh/jrajath94/data-pipeline-monitor/branch/main/graph/badge.svg)](https://codecov.io/gh/jrajath94/data-pipeline-monitor)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 
 ## The Problem
 
@@ -118,14 +118,14 @@ For numeric drift, the KS test compares empirical CDFs of the reference and curr
 
 For categorical drift, the detector aligns frequency vectors across both distributions (handling categories that appear in only one), normalizes the reference to match the current sample size, and runs the Chi-square test. The 0.5 floor on expected counts prevents the test from becoming undefined on rare categories.
 
-The `PipelineMonitor` wraps the detector with data quality checks, alert generation, and Prometheus metric export. The monitoring loop can run continuously (async) or be called per-batch in a prediction pipeline. Each check adds ~1.2ms for a 10-feature batch -- negligible compared to model inference time.
+The `PipelineMonitor` wraps the detector with data quality checks, alert generation, and Prometheus metric export. The monitoring loop can run continuously (async) or be called per-batch in a prediction pipeline. Each check adds ~1.2ms for a 5-feature batch -- negligible compared to model inference time.
 
 **Edge cases the system handles:** Multi-modal distributions (KS becomes unreliable -- segment your data first). High-cardinality categoricals (switch to Jensen-Shannon divergence). Seasonal patterns (maintain separate reference windows for weekday/weekend/holiday). Gradual drift (complement KS with exponential moving average tracking to catch slow leaks that accumulate below the detection threshold).
 
 ## Testing
 
 ```bash
-make test    # 25 tests, 87% coverage
+make test    # Run unit and integration tests
 make bench   # Performance benchmarks
 make lint    # Ruff + mypy
 ```

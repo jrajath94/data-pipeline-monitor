@@ -19,7 +19,7 @@ The catch: you can't run statistical tests on 100 features manually. And you can
 
 ## What This Project Does
 
-A single-file drift detection library that runs KS tests on numeric features and Chi-square tests on categoricals, classifies results by severity, and pushes everything to Prometheus. It adds 1.2ms of latency per 10-feature batch -- negligible compared to model inference.
+A single-file drift detection library that runs KS tests on numeric features and Chi-square tests on categoricals, classifies results by severity, and pushes everything to Prometheus. Latency is negligible compared to model inference.
 
 - **Statistical drift detection** using two-sample KS test (numeric) and Chi-square goodness-of-fit (categorical)
 - **Severity classification** mapping raw p-values to actionable levels (critical/high/medium/low/none)
@@ -92,17 +92,12 @@ for alert in alerts:
 # WARNING: Drift detected in feature 'customer_value' (p-value: 0.0001)
 ```
 
-## Key Results
+## Comparison
 
-| Metric                                | This Project          | Evidently AI  | WhyLabs / whylogs | NannyML       |
-| ------------------------------------- | --------------------- | ------------- | ----------------- | ------------- |
-| Latency per batch (10 features)       | **1.2ms**             | ~300ms        | ~50ms             | ~80ms         |
-| Memory footprint (10 features)        | **~80KB**             | ~50MB         | ~5MB              | ~20MB         |
-| Setup complexity                      | pip install scipy     | Low-medium    | Medium (SaaS)     | Low-medium    |
-| Prometheus integration                | Native (push gateway) | Custom export | Custom export     | Custom export |
-| Single feature drift (500 samples)    | 2.41ms                | --            | --                | --            |
-| Data quality check (3 features)       | 5.37ms                | --            | --                | --            |
-| Large batch (10K samples, 5 features) | 226ms                 | --            | --                | --            |
+| Aspect                          | This Project          | Evidently AI  | WhyLabs / whylogs | NannyML       |
+| ------------------------------- | --------------------- | ------------- | ----------------- | ------------- |
+| Setup complexity                | pip install scipy     | Low-medium    | Medium (SaaS)     | Low-medium    |
+| Prometheus integration          | Native (push gateway) | Custom export | Custom export     | Custom export |
 
 ## Design Decisions
 
@@ -130,7 +125,7 @@ The `PipelineMonitor` wraps the detector with data quality checks, alert generat
 ## Testing
 
 ```bash
-make test    # 26 tests, 87% coverage
+make test    # 25 tests, 87% coverage
 make bench   # Performance benchmarks
 make lint    # Ruff + mypy
 ```
